@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Twig web client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="twig_poc_web_lib/img/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="twig_poc_web_lib/img/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="twig_poc_web_lib/img/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="twig_poc_web_lib/img/favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="twig_poc_web_lib/css/red5pro-media.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="twig_poc_web_lib/css/style.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <section id="login-container" class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <img src="twig_poc_web_lib/img/twig_logo_pos.png" class="img-fluid">
+        </header>
+
+        <form id="login-form" action="#">
+          <div class="mb-3">
+            <label for="eInput" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="eInput" aria-describedby="emailHelp" value="stefano.piermatteo@streamext.com">
+          </div>
+          <div class="mb-3">
+            <label for="pInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="pInput" value="PEuE5Hwv">
+          </div>
+          <div class="mb-3" id="eField"></div>
+          <div class="mb-3"><a href="https://twig2.twig.show/index.php/area-riservata/registrati?view=reset">Forgot password?</a></div>
+          <div class="mb-3"><button id="login-form-submit" type="submit" class="btn btn-primary">Submit</button></div>
+          <div class="mb-3">Not yet a member?<a class="px-3" href="https://twig2.twig.show/index.php/area-riservata/registrati">Signup now</a></div>  
+        </form>
+      </section>
+
+      <section id="show-container" class="container hideEl">
+
+        <div class="px-3 py-3 my-3 text-center">
+          <div id="streaming-events-container" class="row mb-3">
+          </div>
+        </div>
+    
+        <div class="px-3 py-3 my-3 text-center">
+          <div id="program-subscriber-container">
+            <video id="program-subscriber" autoplay playsinline class="twigPlayer hideEl"></video>
+          </div>
+        </div>
+    
+        <div class="px-3 py-3 my-3 text-center">
+          <div class="row mb-3">
+            <div>
+              <video id="red5pro-grid-publisher" class="twigPlayer hideEl"
+              autoplay playsinline muted>
+              </video>
+            </div>
+            <div class="row mb-3">
+              <audio id="red5pro-audio-grid-publisher" class="twigPlayer hideEl"
+              autoplay playsinline muted>
+              </audio>
+            </div>
+          </div>
+          <!--TODO-->
+          <!--<button id="stop-grid-publisher" class="btn btn-primary hideEl">Stop publishing</button>-->
+        </div>
+    
+        <div  id="group-section" class="px-3 py-3 my-3 text-center hideEl">
+          <div id="peer-subscribers-container" class="row mb-3">
+          </div>
+          <!--TODO-->
+          <!--<button id="mute-group" class="btn btn-primary hideEl">Mute</button>-->
+        </div>
+    
+        <div class="container px-3 py-3 my-3">
+          <div class="mb-3 d-flex justify-content-center">
+            <button id="leave-event" class="btn btn-primary" name="button">Leave event</button>
+          </div>
+          <div class="mb-3 d-flex justify-content-center">
+            <button id="dev-mode" class="btn btn-secondary" name="button">Developer mode</button>
+          </div>
+
+          <div id='dev-mode-section' class="px-3 py-3 my-3 hideEl">
+            <!--
+            <form>
+              <div class="mb-3 form-row">
+                <Label class="col-3">Camera:</label>
+                <select id="camera-select" class="control col-3"></select>
+              </div>
+            </form>
+            -->
+
+            <div class="container">
+              <div class="row">
+                <p class="col-3">Program subscriber stats</p>            
+              </div>
+              <div class="row">
+                <p id="program-sub-stream-title" class="col-3 test-info_stream-title">STREAM UNKNOWN</p>
+              </div>
+              <div class="row">
+              <p id="stream-status-field" class="col-3">On hold.</p>
+              </div>
+              <div id="stats-field" class="row">
+                <div class="row">
+                  <p class="col-3">Bitrate</p>
+                  <p id="stats-bitrate-field" class="col-3">N/A</p>
+                </div>
+                <div class="row">
+                  <p class="col-3">Packets Received</p>
+                  <p id="stats-packets-field" class="col-3">N/A</p>
+                </div>
+                <div class="row">
+                  <p class="col-3">Resolution</p>
+                  <p id="stats-resolution-field" class="col-3">N/A</p>
+                </div>
+                <div class="row">
+                  <p class="col-3">SampleRate</p>
+                  <p id="stats-samplerate-field" class="col-3">0x0</p>
+                </div>
+                <div class="row">
+                  <p class="col-3">SampleSize</p>
+                  <p id="stats-samplesize-field" class="col-3">0x0</p>
+                </div>
+                <div class="row">
+                  <p class="col-3">Edge IP</p>
+                  <p id="program-sub-address-field" class="col-3">N/A</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 d-flex justify-content-center">
+            <button id="join-group" class="btn btn-primary" name="button">Join random group</button>
+          </div>
+        </div>
+
+        <div class="px-3 py-3 my-3">
+          <form id="user-form">
+            <div class="form-row mb-3">
+              <label class="col-3" for="nickname-input">Nickname</label>
+              <input  id="nickname-input"  type="text" placeholder="nickname">
+            </div>
+            <div class="form-row mb-3">
+              <label class="col-3" for="pics">Avatar</label>
+              <select id="pics" name="pics" class="control col-3">
+                <option value="rockstar">Rockstar</option>
+                <option value="monster">Monster</option>
+                <option value="flower">Flower</option>
+                <option value="car">Car</option>  
+              </select>
+            </div>
+            <div><button id="user-form-submit" type="submit" class="btn btn-primary">Change Avatar</button></div>
+          </form>  
+        </div>
+        
+      </section>
+    </div>
+
+    <script src="https://webrtchacks.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.2.0/screenfull.min.js"></script>
+    <script src="twig_poc_web_lib/lib/red5pro-sdk.min.js"></script>
+    <script src="twig_poc_web_lib/lib/red5pro-utils-mod.js"></script>
+    <script src="twig_poc_web_lib/lib/common-red5.js"></script>
+    <script src="twig_poc_web_lib/lib/common-publisher.js"></script>
+    <script src="twig_poc_web_lib/lib/common-subscriber.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
