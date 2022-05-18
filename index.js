@@ -62,7 +62,7 @@ let activeCompositionIndex;
 
 function setDeveloperMode() {
   devMode = !devMode;
-  if(devMode) {
+  if(devMode && devModeSection) {
     devModeSection.classList.remove('hideEl');
   } else {
     devModeSection.classList.add('hideEl');
@@ -98,9 +98,9 @@ function getDOMElements() {
   statsField = document.getElementById('stats-field');
   statsBitrateField = document.getElementById('stats-bitrate-field');
   statsPacketsField = document.getElementById('stats-packets-field');
+  statsResolutionField = document.getElementById('stats-resolution-field');
   statsSampleRateField = document.getElementById('stats-samplerate-field');
   statsSampleSizeField = document.getElementById('stats-samplesize-field');
-  statsResolutionField = document.getElementById('stats-resolution-field');
   programSubAddressField = document.getElementById('program-sub-address-field');
   leaveEventBtn = document.getElementById('leave-event');
   joinGroupBtn = document.getElementById('join-group');
@@ -232,7 +232,7 @@ async function joinEvent() {
   try {      
     programSubscriberDOM.classList.remove('hideEl');
     await trySubProgram();
-    programSubStatusStreamTitle.innerText = streamingEvents[activeEventIndex].eventStreams[0].streamName;
+    if(programSubStatusStreamTitle) programSubStatusStreamTitle.innerText = streamingEvents[activeEventIndex].eventStreams[0].streamName;
    } catch (error) {
     console.error(`[joinEvent] subscribe ${error}`);
   }
@@ -289,7 +289,7 @@ window.onload = async () => {
     if(cameraSelect) {
       cameraSelect.innerHTML = cameraSelectInnerHTML;
       cameraSelect.addEventListener('change', function() {
-        onMediaSelect(statsField);
+        onMediaSelect();
       });
     };
   }
